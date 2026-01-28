@@ -1,0 +1,6 @@
+pycountry
+pandas
+pytest
+pytest_cov
+tensorboard
+pytest-xdist[psutil]

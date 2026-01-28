@@ -1,0 +1,39 @@
+name: Formatting
+
+# MANUAL_TRIGGER
+# on: [ push, pull_request ]
+on: [repository_dispatch, workflow_dispatch]
+
+jobs:
+  formatting:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # CINTENT >> REMOVE_MATRIX
+        # python-version: [ "3.8", "3.9", "3.10", "3.11" ]
+        python-version: [ "3.11" ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # CINTENT >> INSERT_CINTENT
+      - uses: JavidDitty/setup-cintent@23f433fdb37d0a420804269a89ed1940368546fe
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          pip install -Ur styling_requirements.txt
+      - name: Formatting
+        run: |
+          black --diff --check .
+
+      # CINTENT >> INSERT_CINTENT
+      - name: Upload CIntent Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ env.CINTENT_ARTIFACT_NAME }}
+          path: ${{ env.CINTENT_LOGS }}
