@@ -16,13 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # CINTENT >> INSERT_CINTENT
-      - uses: JavidDitty/setup-cintent@23f433fdb37d0a420804269a89ed1940368546fe
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+
+      # CINTENT >> INSERT_CINTENT
+      - uses: JavidDitty/setup-cintent@3e5b2faf83a2ad32c22a1cd0f86f5f20ea53a5ab
+
       - name: Install dependencies
         run: |
           pip install -Ur styling_requirements.txt
